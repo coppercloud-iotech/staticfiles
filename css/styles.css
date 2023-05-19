@@ -1,0 +1,121 @@
+
+		body,
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			font-family: "Montserrat", sans-serif
+		}
+
+		.w3-row-padding img {
+			margin-bottom: 12px
+		}
+
+		/* Set the width of the sidebar to 120px */
+		.w3-sidebar {
+			width: 120px;
+			background: #111;
+		}
+
+		/* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
+		/* #main {margin-left: 120px} */
+		/* Remove margins from "page content" on small screens */
+		@media only screen and (max-width: 600px) {
+			#main {
+				margin-left: 0
+			}
+		}
+
+		/*In-Page Custom Styles*/
+
+		.alert {
+			padding: 20px;
+			background-color: #f44336;
+			color: white;
+			font-size: 20px;
+			display: none;
+		}
+
+		.warning {
+			padding: 20px;
+			background-color: orange;
+			color: white;
+			font-size: 20px;
+			display: none;
+		}
+
+		.success {
+			padding: 20px;
+			background-color: #006600;
+			color: white;
+			font-size: 20px;
+			display: none;
+		}
+
+		.closebtn {
+			margin-left: 15px;
+			color: white;
+			font-weight: bold;
+			float: right;
+			font-size: 22px;
+			line-height: 20px;
+			cursor: pointer;
+			transition: 0.3s;
+		}
+
+		.closebtn:hover {
+			color: black;
+		}
+
+		input[type=radio] {
+			border: 0px;
+			width: 2em;
+			height: 2em;
+		}
+
+		.gradient-button {
+			height: 50px;
+			width: 100%;
+			font-size: large;
+			font-weight: bold;
+			background-image: linear-gradient(white, silver, orange);
+			box-shadow: 0 0 5px 5px #48abe0,
+				0 0 20px 7px #ebecca;
+		}
+
+		.gradient-button:active {
+			transform: scale(0.9);
+			box-shadow: 0 0 5px 5px #48abe0,
+				0 0 20px 7px orange;
+		}
+
+		.field-highlight {
+			transform: scale(1.2);
+			box-shadow: 0 0 5px 5px #48abe0;
+			color: red;
+			font-weight: bold;
+		}
+
+		/* Float four columns side by side */
+		.column {
+			float: left;
+			width: 20%;
+			padding: 0 10px;
+		}
+
+		/* Float four columns side by side */
+		.allocationpane {
+			margin-top: 20px;
+			margin-bottom: 20px;
+		}
+
+		a:link,
+		a:visited {
+			color: white;
+			padding: 14px 25px;
+			text-align: center;
+			text-decoration: none;
+		}
+		
