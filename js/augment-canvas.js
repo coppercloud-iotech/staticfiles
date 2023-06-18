@@ -122,7 +122,7 @@ function onDoubleClick(event) {
                     var link = prompt("Enter the image source URL:", image.link);
                     if (link !== null) {
                         image.link = link;  // Update the link value of the specific image object
-                        // image.element.src = src;  // Update the src attribute of the corresponding image in the canvas
+						// image.element.src = src;  // Update the src attribute of the corresponding image in the canvas
                         redraw();
                     }
                 }
@@ -176,35 +176,6 @@ function onMouseDown(event) {
                 break;
             }
         }
-        /* if (!isDragging) { // check if not dragging image
-            clickCount ++;
-            var rect = canvas.getBoundingClientRect();
-            var x = event.clientX - rect.left;
-            var y = event.clientY - rect.top;
-
-            drawCircle(5, x, y);
-            drawText(String("(" + x + "," + y + ")"), x, y);
-
-            if(clickCount == 1) {
-                x1 = x;
-                y1 = y;
-            }
-            else if(clickCount == 2) {
-                x2 = x; 
-                y2 = y; 
-
-                drawCircle(5, x, y);
-                drawText(String("(" + x + "," + y + ")"), x, y);
-
-                length = getLength(x1,y1, x2,y2);
-                drawLine(x1,y1, x2,y2);
-                drawText(length, (x2+x1)/2, (y2+y1)/2);
-            }
-            else{
-                clickCount = 0;
-                redraw();
-            }
-        } */
     }
 }
 
