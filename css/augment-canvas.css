@@ -105,6 +105,10 @@
     cursor: pointer;
 }
 
+#save-button:hover {
+    background-color: #186418;
+}
+
 #preview-button {
     margin-left: 35%;
     font-size: 20px;
@@ -115,10 +119,10 @@
     cursor: pointer;
 }
 
-#prompt-button:hover,
-#save-button:hover {
-    background-color: #45a049;
+#preview-button:hover {
+    background-color: rgb(193, 112, 13);
 }
+
 
 canvas {
     display: block;
