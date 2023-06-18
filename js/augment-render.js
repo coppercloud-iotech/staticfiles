@@ -1,6 +1,6 @@
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
-var scaleFactor = 2;    //reflength_x*4.26; // pxlength
+var scaleFactor = 1;    //reflength_x*4.26; // pxlength
 var data;
 
 function getAvlHeight() {return window.screen.availHeight;}
