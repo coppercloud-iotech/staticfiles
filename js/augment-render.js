@@ -1,6 +1,6 @@
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
-var scaleFactor = 1;    //reflength_x*4.26; // pxlength
+var scaleFactor = 2;    //reflength_x*4.26; // pxlength
 var data;
 
 function getAvlHeight() {return window.screen.availHeight;}
@@ -11,41 +11,49 @@ function getAvlWidth()  {return window.screen.availWidth;}
 //     window.open(imageSrc, "_blank", "width=800, height=600");
 // }
 
+function isURL(str) {
+    var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))'+ // IP address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+      '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+    return pattern.test(str);
+}  
+
 function openVideoPopup(videoSrc) {
     var popupWindow = window.open('', '_blank', 'width=800, height=600');
     var videoElement;
   
-    if (videoSrc.includes('youtube.com')) {
-      var videoId = videoSrc.split('v=')[1];
-      var embedUrl = 'https://www.youtube.com/embed/' + videoId;
+    if (isURL(videoSrc)) {
       videoElement = document.createElement('iframe');
-      videoElement.src = embedUrl;
+      videoElement.src = videoSrc;
       videoElement.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
       videoElement.allowFullscreen = true;
       videoElement.style.width = '100%';
       videoElement.style.height = '100%';
+      videoElement.style.border = 'none'; // Remove iframe border
     } else {
       videoElement = document.createElement('video');
       videoElement.src = videoSrc;
       videoElement.controls = true;
       videoElement.preload = 'metadata';
+      videoElement.style.maxWidth = '100%';
+      videoElement.style.maxHeight = '100%';
+      videoElement.style.display = 'block'; // Ensure the video is displayed as a block element
+      videoElement.style.margin = 'auto'; // Center the video horizontally
     }
   
-    videoElement.onloadedmetadata = function() {
+    popupWindow.document.write('<html><body style="margin: 0;"><div style="display: flex; justify-content: center; align-items: center; width: 100vw; height: 100vh;">' + videoElement.outerHTML + '</div></body></html>');
+    popupWindow.document.close();
+  
+    // Resize the popup window after the video loads
+    videoElement.addEventListener('loadedmetadata', function() {
       var width = videoElement.videoWidth;
       var height = videoElement.videoHeight;
-      popupWindow.document.write('<html><body style="margin: 0;"><div style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">' + videoElement.outerHTML + '</div></body></html>');
-      popupWindow.document.close();
       popupWindow.resizeTo(width, height);
-      if (!videoSrc.includes('youtube.com')) {
-        videoElement.play();
-      }
-    };
-  
-    popupWindow.onbeforeunload = function() {
-      videoElement.pause();
-    };
-}  
+    });
+}
 
 function openImgPopup(imageSrc) {
     var img = new Image();

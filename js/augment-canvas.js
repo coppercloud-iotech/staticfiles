@@ -342,7 +342,7 @@ function saveData() {
 
     // Create a temporary anchor element to trigger the file download
     var anchor = document.createElement("a");
-    anchor.download = "canvas_data.json";
+    anchor.download = "harness.again";
     anchor.href = URL.createObjectURL(blob);
 
     // Programmatically click the anchor element to trigger the download
