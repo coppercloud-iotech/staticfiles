@@ -176,7 +176,7 @@ function onMouseDown(event) {
                 break;
             }
         }
-        if (!isDragging) { // check if not dragging image
+        /* if (!isDragging) { // check if not dragging image
             clickCount ++;
             var rect = canvas.getBoundingClientRect();
             var x = event.clientX - rect.left;
@@ -204,7 +204,7 @@ function onMouseDown(event) {
                 clickCount = 0;
                 redraw();
             }
-        }
+        } */
     }
 }
 
