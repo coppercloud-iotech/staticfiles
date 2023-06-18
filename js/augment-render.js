@@ -6,11 +6,6 @@ var data;
 function getAvlHeight() {return window.screen.availHeight;}
 function getAvlWidth()  {return window.screen.availWidth;}
 
-// function openImgPopup(imageSrc) {
-//     // Open popup screen with the image in larger size
-//     window.open(imageSrc, "_blank", "width=800, height=600");
-// }
-
 function isURL(str) {
     var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
       '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
@@ -67,20 +62,6 @@ function openImgPopup(imageSrc) {
     };
 }
   
-// function openVideoPopup(videoSrc) {
-//     var videoElement = document.createElement('video');
-//     videoElement.src = videoSrc;
-//     videoElement.controls = true;
-//     videoElement.preload = 'metadata';
-//     videoElement.onloadedmetadata = function() {
-//       var width = videoElement.videoWidth;
-//       var height = videoElement.videoHeight;
-//       var popupWindow = window.open('', '_blank', 'width=' + width + ', height=' + height);
-//       popupWindow.document.write('<html><body style="margin: 0;"><video src="' + videoSrc + '" style="width: 100%; height: 100%;" controls></video></body></html>');
-//       popupWindow.document.close();
-//     };
-// }
-
 function onDoubleClick(event) {
     if (event.target === canvas) {
         var x = event.clientX - canvas.offsetLeft;
