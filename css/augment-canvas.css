@@ -95,10 +95,8 @@
     color: #fff;
 }
 
-#prompt-button,
 #save-button {
-    margin-left: 50%;
-    padding: 10px 20px;
+    margin-left: 1%;
     font-size: 20px;
     background-color: #4caf50;
     color: #fff;
@@ -108,8 +106,7 @@
 }
 
 #preview-button {
-    margin-left: 50%;
-    padding: 10px 20px;
+    margin-left: 35%;
     font-size: 20px;
     background-color: orange;
     color: #fff;
