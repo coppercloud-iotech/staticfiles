@@ -16,7 +16,7 @@ var widgetMenu = document.getElementById("widget-menu");
 widgetMenu.style.width = window.screen.availWidth - 50;
 // Load the background image
 var backgroundImage = new Image();
-backgroundImage.src = "https://cdn.jsdelivr.net/gh/coppercloud-iotech/staticfiles@latest/img/test-layout-1.png";
+backgroundImage.src = "https://cdn.jsdelivr.net/gh/coppercloud-iotech/staticfiles@latest/img/test-layout-2.png";
 
 function getAvlHeight() {return window.screen.availHeight;}
 function getAvlWidth()  {return window.screen.availWidth;}
