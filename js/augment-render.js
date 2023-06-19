@@ -1,10 +1,10 @@
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
-var scaleFactor = 1;    //reflength_x*4.26; // pxlength
+var scaleFactor = 0.5;    //reflength_x*4.26; // pxlength
 var data;
 
 function getAvlHeight() {return window.screen.availHeight;}
-function getAvlWidth()  {return window.screen.availWidth;}
+function getAvlWidth()  {return window.screen.availWidth;} 
 
 function isURL(str) {
     var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
@@ -61,29 +61,68 @@ function openImgPopup(imageSrc) {
       popupWindow.document.close();
     };
 }
+
+// function onDoubleClick(event) {
+//     if (event.target === canvas) {
+//       var x = (event.clientX - canvas.offsetLeft) / scaleFactor;
+//       var y = (event.clientY - canvas.offsetTop) / scaleFactor;
   
+//       const elements = Object.values(data.elements);
+//       elements.forEach((elementGroup) => {
+//         elementGroup.forEach((element) => {
+//           var image = element;
+//           var imgScaleFactor = element.radius / Math.max(element.width, element.height);
+//           var transformedX = (x - element.x) * scaleFactor / imgScaleFactor;
+//           var transformedY = (y - element.y) * scaleFactor / imgScaleFactor;
+//           var isWithinImage = transformedX >= 0 && transformedX < element.width && transformedY >= 0 && transformedY < element.height;
+  
+//           if (isWithinImage) {
+//             if (image.id.startsWith("image")) {
+//               // Open popup screen 
+//               openImgPopup(image.link);
+//             }
+//             else if (image.id.startsWith("video")) {
+//               // Open popup screen with video playing
+//               openVideoPopup(image.link);
+//             }
+//           }
+//         });
+//       });
+//     }
+// }  
+
 function onDoubleClick(event) {
     if (event.target === canvas) {
-        var x = event.clientX - canvas.offsetLeft;
-        var y = event.clientY - canvas.offsetTop;
-        const elements = Object.values(data.elements);
-        elements.forEach((elementGroup) => {
-            elementGroup.forEach((element) => {
-                var image = element;
-                if (x >= image.x && x < image.x + image.width && y >= image.y && y < image.y + image.height) {
-                    if (image.id.startsWith("image")) {
-                        // Open popup screen 
-                        openImgPopup(image.link);
-                    }
-                    else if (image.id.startsWith("video")) {
-                        // Open popup screen with video playing
-                        openVideoPopup(image.link);
-                    }
-                }
-            })
-        })
+      var x = (event.clientX - canvas.offsetLeft) / scaleFactor;
+      var y = (event.clientY - canvas.offsetTop) / scaleFactor;
+  
+      const elements = Object.values(data.elements);
+      elements.forEach((elementGroup) => {
+        elementGroup.forEach((element) => {
+          var image = element;
+          var imgScaleFactor = element.radius / Math.max(element.width, element.height);
+          var newWidth = element.width * imgScaleFactor * scaleFactor;
+          var newHeight = element.height * imgScaleFactor * scaleFactor;
+          var newX = (element.x * scaleFactor) + (element.width * scaleFactor - newWidth) / 2;
+          var newY = (element.y * scaleFactor) + (element.height * scaleFactor - newHeight) / 2;
+  
+          var transformedX = x - newX / scaleFactor;
+          var transformedY = y - newY / scaleFactor;
+          var isWithinImage = transformedX >= 0 && transformedX < newWidth / scaleFactor && transformedY >= 0 && transformedY < newHeight / scaleFactor;
+  
+          if (isWithinImage) {
+            if (image.id.startsWith("image")) {
+              // Open popup screen
+              openImgPopup(image.link);
+            } else if (image.id.startsWith("video")) {
+              // Open popup screen with video playing
+              openVideoPopup(image.link);
+            }
+          }
+        });
+      });
     }
-}
+  }   
 
 window.addEventListener("DOMContentLoaded", () => {
     const fileInput = document.getElementById("json-file");
@@ -116,10 +155,9 @@ window.addEventListener("DOMContentLoaded", () => {
                         var imgScaleFactor = element.radius / Math.max(element.width, element.height);
                         var newWidth = element.width * imgScaleFactor * scaleFactor;
                         var newHeight = element.height * imgScaleFactor * scaleFactor;
-                        var newX = element.x * scaleFactor + element.width / 2 - newWidth / 2;
-                        var newY = element.y * scaleFactor + element.height / 2 - newHeight / 2;
+                        var newX = (element.x * scaleFactor) + (element.width * scaleFactor - newWidth) / 2;
+                        var newY = (element.y * scaleFactor) + (element.height * scaleFactor - newHeight) / 2;
                         image.addEventListener("load", () => {
-                            // ctx.drawImage(image, newX, newY, newWidth, newHeight);
                             // Save the current canvas state
                             ctx.save();
                             
@@ -159,5 +197,4 @@ window.addEventListener("DOMContentLoaded", () => {
         }
         reader.readAsText(file);
     }
-  });
-  
+});
