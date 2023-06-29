@@ -1,7 +1,3 @@
-// document.write("Hello World from js");
-
-
-
 function letMeCallYou()
 {
     alert("Bazinga !!, you called letMeCallYou")
