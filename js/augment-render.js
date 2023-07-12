@@ -16,9 +16,30 @@ function isURL(str) {
     return pattern.test(str);
 }  
 
-function openVideoPopup(videoSrc) {
-    var popupWindow = window.open('', '_blank', 'width=800, height=600');
+function openVideoPopup(videoSrc,x,y) {
+    var width = 200;
+    var height = 200;
+    var left = x - width / 2 + window.scrollX;
+    var top = y - height + window.scrollY;
+
+    var popupWindow = window.open('', '_blank', 'left=' + left + ', top=' + top + ', width=' + width + ', height=' + height);
+    // var popupWindow = window.open('', '_blank', 'width=100, height=100');
     var videoElement;
+
+    if (videoSrc.includes('youtube.com') || videoSrc.includes('youtu.be')) {
+      // Extract the video ID from the URL
+      var videoId = '';
+      var match = videoSrc.match(/[?&]v=([^&]+)/);
+      if (match) {
+        videoId = match[1];
+      } else {
+        var urlParts = videoSrc.split('/');
+        videoId = urlParts[urlParts.length - 1];
+      }
+  
+      // Construct the embed URL
+      videoSrc = 'https://www.youtube.com/embed/' + videoId;
+    }
   
     if (isURL(videoSrc)) {
       videoElement = document.createElement('iframe');
@@ -43,86 +64,64 @@ function openVideoPopup(videoSrc) {
     popupWindow.document.close();
   
     // Resize the popup window after the video loads
-    videoElement.addEventListener('loadedmetadata', function() {
-      var width = videoElement.videoWidth;
-      var height = videoElement.videoHeight;
-      popupWindow.resizeTo(width, height);
-    });
+    // videoElement.addEventListener('loadedmetadata', function() {
+    //   var width = videoElement.videoWidth;
+    //   var height = videoElement.videoHeight;
+    //   // popupWindow.resizeTo(width, height);
+    //   popupWindow.resizeTo(400, 400);
+    // });
 }
 
-function openImgPopup(imageSrc) {
+function openImgPopup(imageSrc,x,y) {
     var img = new Image();
     img.src = imageSrc;
     img.onload = function() {
-      var width = img.width;
-      var height = img.height;
-      var popupWindow = window.open('', '_blank', 'width=' + width + ', height=' + height);
+      // var width = img.width;
+      // var height = img.height;
+      var width = 100;
+      var height = 100;
+      var left = x - width / 2 + window.scrollX;
+      var top = y - height + window.scrollY;
+
+      var popupWindow = window.open('', '_blank', 'left=' + left + ', top=' + top + ', width=' + width + ', height=' + height);
+      // var popupWindow = window.open('', '_blank', 'width=' + width + ', height=' + height);
       popupWindow.document.write('<html><body style="margin: 0;"><img src="' + imageSrc + '" style="width: 100%; height: 100%; object-fit: contain;"></body></html>');
       popupWindow.document.close();
     };
 }
 
-// function onDoubleClick(event) {
-//     if (event.target === canvas) {
-//       var x = (event.clientX - canvas.offsetLeft) / scaleFactor;
-//       var y = (event.clientY - canvas.offsetTop) / scaleFactor;
-  
-//       const elements = Object.values(data.elements);
-//       elements.forEach((elementGroup) => {
-//         elementGroup.forEach((element) => {
-//           var image = element;
-//           var imgScaleFactor = element.radius / Math.max(element.width, element.height);
-//           var transformedX = (x - element.x) * scaleFactor / imgScaleFactor;
-//           var transformedY = (y - element.y) * scaleFactor / imgScaleFactor;
-//           var isWithinImage = transformedX >= 0 && transformedX < element.width && transformedY >= 0 && transformedY < element.height;
-  
-//           if (isWithinImage) {
-//             if (image.id.startsWith("image")) {
-//               // Open popup screen 
-//               openImgPopup(image.link);
-//             }
-//             else if (image.id.startsWith("video")) {
-//               // Open popup screen with video playing
-//               openVideoPopup(image.link);
-//             }
-//           }
-//         });
-//       });
-//     }
-// }  
-
 function onDoubleClick(event) {
-    if (event.target === canvas) {
-      var x = (event.clientX - canvas.offsetLeft) / scaleFactor;
-      var y = (event.clientY - canvas.offsetTop) / scaleFactor;
-  
-      const elements = Object.values(data.elements);
-      elements.forEach((elementGroup) => {
-        elementGroup.forEach((element) => {
-          var image = element;
-          var imgScaleFactor = element.radius / Math.max(element.width, element.height);
-          var newWidth = element.width * imgScaleFactor * scaleFactor;
-          var newHeight = element.height * imgScaleFactor * scaleFactor;
-          var newX = (element.x * scaleFactor) + (element.width * scaleFactor - newWidth) / 2;
-          var newY = (element.y * scaleFactor) + (element.height * scaleFactor - newHeight) / 2;
-  
-          var transformedX = x - newX / scaleFactor;
-          var transformedY = y - newY / scaleFactor;
-          var isWithinImage = transformedX >= 0 && transformedX < newWidth / scaleFactor && transformedY >= 0 && transformedY < newHeight / scaleFactor;
-  
-          if (isWithinImage) {
-            if (image.id.startsWith("image")) {
-              // Open popup screen
-              openImgPopup(image.link);
-            } else if (image.id.startsWith("video")) {
-              // Open popup screen with video playing
-              openVideoPopup(image.link);
-            }
+  if (event.target === canvas) {
+    var x = (event.clientX - canvas.offsetLeft) / scaleFactor;
+    var y = (event.clientY - canvas.offsetTop) / scaleFactor;
+
+    const elements = Object.values(data.elements);
+    elements.forEach((elementGroup) => {
+      elementGroup.forEach((element) => {
+        var image = element;
+        var imgScaleFactor = element.radius / Math.max(element.width, element.height);
+        var newWidth = element.width * imgScaleFactor * scaleFactor;
+        var newHeight = element.height * imgScaleFactor * scaleFactor;
+        var newX = (element.x * scaleFactor) + (element.width * scaleFactor - newWidth) / 2;
+        var newY = (element.y * scaleFactor) + (element.height * scaleFactor - newHeight) / 2;
+
+        var transformedX = x - newX / scaleFactor;
+        var transformedY = y - newY / scaleFactor;
+        var isWithinImage = transformedX >= 0 && transformedX < newWidth / scaleFactor && transformedY >= 0 && transformedY < newHeight / scaleFactor;
+
+        if (isWithinImage) {
+          if (image.id.startsWith("image")) {
+            // Open popup screen
+            openImgPopup(image.link, event.screenX, event.screenY);
+          } else if (image.id.startsWith("video")) {
+            // Open popup screen with video playing
+            openVideoPopup(image.link, event.screenX, event.screenY);
           }
-        });
+        }
       });
-    }
-  }   
+    });
+  }
+}   
 
 window.addEventListener("DOMContentLoaded", () => {
     const fileInput = document.getElementById("json-file");
@@ -151,13 +150,23 @@ window.addEventListener("DOMContentLoaded", () => {
                 elements.forEach((elementGroup) => {
                     elementGroup.forEach((element) => {
                         const image = new Image();
-                        image.src = element.src;
+                        if (element.id.startsWith("image")) {
+                          image.src = element.link;
+                        }
+                        else{
+                          image.src = element.src;
+                        }
                         var imgScaleFactor = element.radius / Math.max(element.width, element.height);
                         var newWidth = element.width * imgScaleFactor * scaleFactor;
                         var newHeight = element.height * imgScaleFactor * scaleFactor;
                         var newX = (element.x * scaleFactor) + (element.width * scaleFactor - newWidth) / 2;
                         var newY = (element.y * scaleFactor) + (element.height * scaleFactor - newHeight) / 2;
                         image.addEventListener("load", () => {
+                            // Draw the purple boundary
+                            // ctx.strokeStyle = "purple";
+                            // ctx.lineWidth = 2;
+                            // ctx.strokeRect(newX, newY, newWidth, newHeight);
+
                             // Save the current canvas state
                             ctx.save();
                             

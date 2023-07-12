@@ -5,58 +5,44 @@ var images = [];
 var isDragging = false;
 var dragIndex = -1;
 var dragStart = { x: 0, y: 0 };
-var reflength_x = 30;   //10;
+var reflength_x = 30;
 var reflength_y = 10;
 var clickCount = 0;
 var x1, y1, x2, y2, length;
-//var universalscalefactor =   0.559;   // essem tv X 0.717;   // essem tv Y 3.7; // square monitor //2.07; // tv1 //4.45 - AD laptop; //4.26; // general value for x & y (empirical)
+
 var universalscalefactor = 4.45;    // - AD laptop;
-var scaleFactor = 1;    //reflength_x*4.26; // pxlength
+var scaleFactor = 1;
 var widgetMenu = document.getElementById("widget-menu");
 widgetMenu.style.width = window.screen.availWidth - 50;
+
 // Load the background image
 var backgroundImage = new Image();
-backgroundImage.src = "https://cdn.jsdelivr.net/gh/coppercloud-iotech/staticfiles@latest/img/test-layout-1.png";
+document.getElementById("background-image-input").addEventListener("change", function(event) {
+    var fileInput = event.target;
+    var file = fileInput.files[0];
+  
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      backgroundImage.src = e.target.result;
+    };
+
+    backgroundImage.onload = function() {
+        canvas.width = getAvlWidth() - 50;
+        canvas.height = getAvlHeight() - 100;
+        ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+    };
+    images = [];
+  
+    reader.readAsDataURL(file);
+});
+// var backgroundImage = new Image();
+// backgroundImage.src = "https://cdn.jsdelivr.net/gh/coppercloud-iotech/staticfiles@latest/img/test-layout-1.png";
 
 function getAvlHeight() {return window.screen.availHeight;}
 function getAvlWidth()  {return window.screen.availWidth;}
 
 function getAbsHeight() {return window.screen.height;}
 function getAbsWidth()  {return window.screen.width;}
-
-function getLength(x1,y1, x2,y2) {
-    var deltaX = x2-x1;
-    var deltaY = y2-y1;
-    var dist = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
-    console.log(`The distance between (${x1}, ${y1}) and (${x2}, ${y2}) is ${dist}`)
-    
-    return dist;
-}
-
-function drawText(content, x, y) {
-    ctx.font = "20px serif";
-    ctx.fillStyle = "red";
-    ctx.fillText(content, x, y);
-}
-
-function drawCircle(radius, x, y) {
-    ctx.beginPath();
-    ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
-    ctx.fillStyle = 'red';
-    ctx.fill();
-    ctx.lineWidth = 3;
-    ctx.strokeStyle = 'grey';
-    ctx.stroke();
-}
-
-function drawLine(x1,y1, x2,y2) {
-    ctx.beginPath();
-    ctx.moveTo(x1, y1);
-    ctx.lineTo(x2, y2);
-    ctx.lineWidth = 3;
-    ctx.strokeStyle = 'grey';
-    ctx.stroke();
-}
 
 function openNav() {
     document.getElementById("mySidenav").style.width = "175px";
@@ -67,11 +53,11 @@ function closeNav() {
 }
 
 // Draw the background image
-backgroundImage.onload = function() {
-    canvas.width  = getAvlWidth()-50;   //window.innerWidth;
-    canvas.height = getAvlHeight()-100; //window.innerHeight;
-    ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
-};
+// backgroundImage.onload = function() {
+//     canvas.width  = getAvlWidth()-50;   //window.innerWidth;
+//     canvas.height = getAvlHeight()-100; //window.innerHeight;
+//     ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+// };
 
 function allowDrop(event) {
     event.preventDefault();
@@ -121,8 +107,9 @@ function onDoubleClick(event) {
                 } else if (image.type === "image") {
                     var link = prompt("Enter the image source URL:", image.link);
                     if (link !== null) {
+                        image.radius = 60;
                         image.link = link;  // Update the link value of the specific image object
-						// image.element.src = src;  // Update the src attribute of the corresponding image in the canvas
+						// image.element.src = link;  // Update the src attribute of the corresponding image in the canvas
                         redraw();
                     }
                 }
@@ -229,70 +216,142 @@ function handleContextMenu(event) {
     }
 }
 
-function redraw() {
+// function redraw() {
+//     var canvasWidth = getAvlWidth() - 50;
+//     var canvasHeight = getAvlHeight() - 100;
+//     canvas.width = canvasWidth * scaleFactor;
+//     canvas.height = canvasHeight * scaleFactor;
+//     ctx.clearRect(0, 0, canvas.width, canvas.height);
+//     ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+//     for (var i = 0; i < images.length; i++) {
+//         var image = images[i];
+//         var imgScaleFactor = image.radius / Math.max(image.element.width, image.element.height);
+//         var newWidth = image.element.width * imgScaleFactor * scaleFactor;
+//         var newHeight = image.element.height * imgScaleFactor * scaleFactor;
+//         var newX = image.x * scaleFactor + image.element.width / 2 - newWidth / 2;
+//         var newY = image.y * scaleFactor + image.element.height / 2 - newHeight / 2;
+//         // ctx.drawImage(image.element, newX, newY, newWidth, newHeight);
+//         // Save the current canvas state
+//         ctx.save();
+        
+//         // Translate to the center of the image
+//         ctx.translate(newX + newWidth / 2, newY + newHeight / 2);
+        
+//         // Rotate the canvas based on the image's rotation
+//         ctx.rotate((image.rotation * Math.PI) / 180);
+
+//         // Draw the image at the rotated position
+//         if (image.type === "image" && image.link) {
+//             var img = new Image();
+//             img.src = image.link;
+//             ctx.drawImage(img, -newWidth / 2, -newHeight / 2, newWidth, newHeight);  
+//         } else {
+//             ctx.drawImage(image.element, -newWidth / 2, -newHeight / 2, newWidth, newHeight);
+//         }
+
+//         // Restore the canvas state
+//         ctx.restore();
+
+//         if (image.type === "text") {
+//             ctx.save();
+          
+//             // Apply the same rotation transformation to the text
+//             ctx.translate(newX + newWidth / 2, newY + newHeight / 2);
+//             ctx.rotate((image.rotation * Math.PI) / 180);
+          
+//             // Adjust the vertical position of the text
+//             var textOffsetY = newHeight / 2 + 5; // Adjust the value as needed
+//             ctx.font = "12px Arial";
+//             ctx.fillStyle = "black";
+//             ctx.textAlign = "center";
+//             ctx.fillText(image.text, 0, textOffsetY);
+          
+//             ctx.restore();
+//         }
+//     }
+//     canvas.addEventListener("dblclick", onDoubleClick);
+
+//     // Add event listeners to handle delete functionality
+//     canvas.addEventListener("contextmenu", handleContextMenu);
+// }
+
+function loadImage(src) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = (error) => reject(error);
+      img.src = src;
+    });
+}
+  
+async function redraw() {
     var canvasWidth = getAvlWidth() - 50;
     var canvasHeight = getAvlHeight() - 100;
     canvas.width = canvasWidth * scaleFactor;
     canvas.height = canvasHeight * scaleFactor;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+    
     for (var i = 0; i < images.length; i++) {
-        var image = images[i];
-        var imgScaleFactor = image.radius / Math.max(image.element.width, image.element.height);
-        var newWidth = image.element.width * imgScaleFactor * scaleFactor;
-        var newHeight = image.element.height * imgScaleFactor * scaleFactor;
-        var newX = image.x * scaleFactor + image.element.width / 2 - newWidth / 2;
-        var newY = image.y * scaleFactor + image.element.height / 2 - newHeight / 2;
-        // ctx.drawImage(image.element, newX, newY, newWidth, newHeight);
-        // Save the current canvas state
-        ctx.save();
-        
-        // Translate to the center of the image
-        ctx.translate(newX + newWidth / 2, newY + newHeight / 2);
-        
-        // Rotate the canvas based on the image's rotation
-        ctx.rotate((image.rotation * Math.PI) / 180);
-        
-        // Draw the image at the rotated position
-        ctx.drawImage(image.element, -newWidth / 2, -newHeight / 2, newWidth, newHeight);
-        
-        // Restore the canvas state
-        ctx.restore();
+      var image = images[i];
+      var imgScaleFactor = image.radius / Math.max(image.element.width, image.element.height);
+      var newWidth = image.element.width * imgScaleFactor * scaleFactor;
+      var newHeight = image.element.height * imgScaleFactor * scaleFactor;
+      var newX = image.x * scaleFactor + image.element.width / 2 - newWidth / 2;
+      var newY = image.y * scaleFactor + image.element.height / 2 - newHeight / 2;
 
-        if (image.type === "text") {
-            ctx.save();
-          
-            // Apply the same rotation transformation to the text
-            ctx.translate(newX + newWidth / 2, newY + newHeight / 2);
-            ctx.rotate((image.rotation * Math.PI) / 180);
-          
-            // Adjust the vertical position of the text
-            var textOffsetY = newHeight / 2 + 5; // Adjust the value as needed
-            ctx.font = "12px Arial";
-            ctx.fillStyle = "black";
-            ctx.textAlign = "center";
-            ctx.fillText(image.text, 0, textOffsetY);
-          
-            ctx.restore();
+      // Draw the purple boundary
+    //   ctx.strokeStyle = "purple";
+    //   ctx.lineWidth = 2;
+    //   ctx.strokeRect(newX, newY, newWidth, newHeight);
+      
+      // Save the current canvas state
+      ctx.save();
+  
+      // Translate to the center of the image
+      ctx.translate(newX + newWidth / 2, newY + newHeight / 2);
+  
+      // Rotate the canvas based on the image's rotation
+      ctx.rotate((image.rotation * Math.PI) / 180);
+  
+      // Draw the image at the rotated position
+      if (image.type === "image" && image.link) {
+        try {
+          var loadedImage = await loadImage(image.link);
+          ctx.drawImage(loadedImage, -newWidth / 2, -newHeight / 2, newWidth, newHeight);
+        } catch (error) {
+          console.error("Error loading image:", error);
         }
+      } else {
+        ctx.drawImage(image.element, -newWidth / 2, -newHeight / 2, newWidth, newHeight);
+      }
+  
+      // Restore the canvas state
+      ctx.restore();
+  
+      if (image.type === "text") {
+        ctx.save();
+  
+        // Apply the same rotation transformation to the text
+        ctx.translate(newX + newWidth / 2, newY + newHeight / 2);
+        ctx.rotate((image.rotation * Math.PI) / 180);
+  
+        // Adjust the vertical position of the text
+        var textOffsetY = newHeight / 2 + 5; // Adjust the value as needed
+        ctx.font = "12px Arial";
+        ctx.fillStyle = "black";
+        ctx.textAlign = "center";
+        ctx.fillText(image.text, 0, textOffsetY);
+  
+        ctx.restore();
+      }
     }
+  
     canvas.addEventListener("dblclick", onDoubleClick);
-
+  
     // Add event listeners to handle delete functionality
     canvas.addEventListener("contextmenu", handleContextMenu);
-}
-
-function scaleCanvas() {
-    reflength_x = window.prompt("Please enter real-world (1:1) MM length of selected segment:", scaleFactor);
-    if (reflength_x !== null && length !== 0) {
-        scaleFactor = reflength_x/(length/universalscalefactor);
-    } 
-    else{
-        scaleFactor = 1;
-    }
-    console.log(scaleFactor,"scalefactor", length, "Length", reflength_x, "reflength_x", universalscalefactor, "universalscalefactor")
-    redraw();
-};
+}  
 
 function saveData() {
     // Create an object to hold the image data by type
