@@ -37,6 +37,40 @@
     margin-bottom: 10px;
 }
 
+.file-input {
+    display: none;
+}
+  
+.file-input-label {
+    display: inline-block;
+    padding: 10px 20px;
+    /*background-color: #f00;
+    color: #fff;
+    cursor: pointer;
+    max-width: 200px; */ /* Adjust the value as needed */
+    /*white-space: nowrap;*/
+    /* word-break: break-word; */
+    /* overflow: hidden; */
+    text-overflow: ellipsis;
+	
+	margin-left: 10%;
+    font-size: 20px;
+    background-color: #dddddd;
+    color: black;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    max-width: 200px; /* Adjust the value as needed */
+    word-break: break-word;
+	font-family: sans serif;
+}
+
+.file-input-label:hover {
+    background-color: rgb(193, 112, 13);
+	background-color: #555555;
+    color: #dddddd;
+}
+
 #myCanvas {
     border: 1px solid black;
     margin-left: 25px;
@@ -103,6 +137,8 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    max-width: 200px; /* Adjust the value as needed */
+    word-break: break-word;
 }
 
 #save-button:hover {
@@ -110,19 +146,20 @@
 }
 
 #preview-button {
-    margin-left: 35%;
+    margin-left: 25%;
     font-size: 20px;
     background-color: orange;
     color: #fff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    max-width: 200px; /* Adjust the value as needed */
+    word-break: break-word;
 }
 
 #preview-button:hover {
     background-color: rgb(193, 112, 13);
 }
-
 
 canvas {
     display: block;
