@@ -124,16 +124,19 @@ function onDoubleClick(event) {
 }   
 
 window.addEventListener("DOMContentLoaded", () => {
+	console.log("read json file");
     const fileInput = document.getElementById("json-file");
   
     fileInput.addEventListener("change", handleFileSelect, false);
   
     function handleFileSelect(event) {
+	  console.log("file changed");
       const file = event.target.files[0];
       const reader = new FileReader();
   
         reader.onload = function (e) {
             const contents = e.target.result;
+			console.log(contents);
             data = JSON.parse(contents);
     
             const layoutImage = new Image();
@@ -144,7 +147,8 @@ window.addEventListener("DOMContentLoaded", () => {
                 canvas.width = canvasWidth * scaleFactor;
                 canvas.height = canvasHeight * scaleFactor;
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.drawImage(layoutImage, 0, 0, canvas.width, canvas.height);
+                //ctx.drawImage(layoutImage, 0, 0, canvas.width, canvas.height);
+				ctx.drawImage(layoutImage, 0, 0);
             
                 const elements = Object.values(data.elements);
                 elements.forEach((elementGroup) => {
