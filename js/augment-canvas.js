@@ -288,9 +288,9 @@ function loadImage(src) {
 async function redraw() {
     var canvasWidth = getAvlWidth() - 50;
     var canvasHeight = getAvlHeight() - 100;
-    //canvas.width = canvasWidth * scaleFactor;
-    //canvas.height = canvasHeight * scaleFactor;
-    //ctx.clearRect(0, 0, canvas.width, canvas.height);
+    canvas.width = canvasWidth * scaleFactor;
+    canvas.height = canvasHeight * scaleFactor;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     //ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 	ctx.drawImage(backgroundImage, 0, 0);
     
