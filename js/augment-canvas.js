@@ -29,8 +29,8 @@ document.getElementById("background-image-input").addEventListener("change", fun
     backgroundImage.onload = function() {
         canvas.width = getAvlWidth() - 50;
         canvas.height = getAvlHeight() - 100;
-        //ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
-		ctx.drawImage(backgroundImage, 0, 0);
+        ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+		//ctx.drawImage(backgroundImage, 0, 0);
     };
     images = [];
   
@@ -291,8 +291,8 @@ async function redraw() {
     canvas.width = canvasWidth * scaleFactor;
     canvas.height = canvasHeight * scaleFactor;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    //ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
-	ctx.drawImage(backgroundImage, 0, 0);
+    ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+	//ctx.drawImage(backgroundImage, 0, 0);
     
     for (var i = 0; i < images.length; i++) {
       var image = images[i];
