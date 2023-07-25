@@ -4,8 +4,8 @@
     background-color: #0a0a0a;
     padding: 20px;
     border: 2px solid #0a0a0a;
-    border-radius: 10px;
-    height:6em;
+	border-radius: 10px;
+	height:100px;	//6em earlier
 }
 
 .widgetmenu again-widget {
@@ -73,7 +73,7 @@
 
 #myCanvas {
     border: 1px solid black;
-    margin-left: 25px;
+    /*margin-left: 25px;*/
 }
 
 .sidenav {
