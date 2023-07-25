@@ -3,8 +3,8 @@ var ctx = canvas.getContext("2d");
 var scaleFactor = 1;    //reflength_x*4.26; // pxlength
 var data;
 
-function getAvlHeight() {return window.screen.availHeight;}
-function getAvlWidth()  {return window.screen.availWidth;} 
+function getAvlHeight() {return window.screen.availHeight-180;}
+function getAvlWidth()  {return window.screen.availWidth;}
 
 function isURL(str) {
     var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
@@ -38,7 +38,7 @@ function openVideoPopup(videoSrc,x,y) {
       }
   
       // Construct the embed URL
-      videoSrc = 'https://www.youtube.com/embed/' + videoId;
+      videoSrc = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&mute=1';
     }
   
     if (isURL(videoSrc)) {
@@ -50,6 +50,7 @@ function openVideoPopup(videoSrc,x,y) {
       videoElement.style.height = '100%';
       videoElement.style.border = 'none'; // Remove iframe border
     } else {
+      videoSrc = 'file:///' + videoSrc.replace(/\\/g, '/');
       videoElement = document.createElement('video');
       videoElement.src = videoSrc;
       videoElement.controls = true;
@@ -135,6 +136,9 @@ window.addEventListener("DOMContentLoaded", () => {
       const reader = new FileReader();
   
         reader.onload = function (e) {
+			// hide load button
+			$("#file-upload").hide();
+			
             const contents = e.target.result;
 			console.log(contents);
             data = JSON.parse(contents);
@@ -142,8 +146,8 @@ window.addEventListener("DOMContentLoaded", () => {
             const layoutImage = new Image();
             layoutImage.src = data.layoutImage.src;
             layoutImage.addEventListener("load", () => {
-                var canvasWidth = getAvlWidth() - 50;
-                var canvasHeight = getAvlHeight() - 100;
+                var canvasWidth = getAvlWidth();	// - 50;
+                var canvasHeight = getAvlHeight();	// - 100;
                 canvas.width = canvasWidth * scaleFactor;
                 canvas.height = canvasHeight * scaleFactor;
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -209,5 +213,7 @@ window.addEventListener("DOMContentLoaded", () => {
             });          
         }
         reader.readAsText(file);
+		console.log("Offset left: " + canvas.offsetLeft);
+		console.log("Offset top:" + canvas.offsetTop);
     }
 });

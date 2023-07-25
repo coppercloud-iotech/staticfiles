@@ -27,8 +27,8 @@ document.getElementById("background-image-input").addEventListener("change", fun
     };
 
     backgroundImage.onload = function() {
-        canvas.width = getAvlWidth() - 50;
-        canvas.height = getAvlHeight() - 100;
+        canvas.width = getAvlWidth();	// - 50;
+        canvas.height = getAvlHeight();
         ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 		//ctx.drawImage(backgroundImage, 0, 0);
     };
@@ -39,7 +39,7 @@ document.getElementById("background-image-input").addEventListener("change", fun
 // var backgroundImage = new Image();
 // backgroundImage.src = "https://cdn.jsdelivr.net/gh/coppercloud-iotech/staticfiles@latest/img/test-layout-1.png";
 
-function getAvlHeight() {return window.screen.availHeight;}
+function getAvlHeight() {return window.screen.availHeight-180;}
 function getAvlWidth()  {return window.screen.availWidth;}
 
 function getAbsHeight() {return window.screen.height;}
@@ -106,13 +106,54 @@ function onDoubleClick(event) {
                         redraw();
                     }
                 } else if (image.type === "image") {
-                    var link = prompt("Enter the image source URL:", image.link);
-                    if (link !== null) {
-                        image.radius = 60;
-                        image.link = link;  // Update the link value of the specific image object
-						// image.element.src = link;  // Update the src attribute of the corresponding image in the canvas
-                        redraw();
-                    }
+                    var fileInput = document.createElement("input");
+                    fileInput.type = "file";
+
+                    // Listen for the file selection
+                    fileInput.addEventListener("change", function (event) {
+                        var file = event.target.files[0];
+                        if (file) {
+                            var fileReader = new FileReader();
+                            fileReader.onload = function (event) {
+                                var base64Image = event.target.result;
+                                // Update the image.link property with the base64 string
+                                image.link = base64Image;
+                                // Redraw the canvas with the new image
+                                redraw();
+                            };
+                            fileReader.readAsDataURL(file);
+                        }
+                    });
+
+                    // Trigger the file dialog
+                    fileInput.click();
+                    
+                    // var link = prompt("Enter the image source URL:", image.link);
+                    // if (link !== null) {
+                    //     image.radius = 60;
+                    //     if (link.startsWith("http://") || link.startsWith("https://")) {
+                    //         fetch(link)
+                    //         .then((response) => response.blob()) // Get the image as a Blob
+                    //         .then((blob) => {
+                    //             // Convert the Blob to base64
+                    //             var reader = new FileReader();
+                    //             reader.onloadend = function() {
+                    //                 var base64Image = reader.result;
+                    //                 image.link = base64Image; // Update the link value of the specific image object with the base64 string
+                    //                 redraw(); // Redraw the canvas
+                    //             };
+                    //             reader.readAsDataURL(blob);
+                    //         })
+                    //         .catch((error) => {
+                    //             console.error("Error fetching or converting the image:", error);
+                    //         });
+                    //     }
+                    //     else{
+                    //         link = 'file:///' + link.replace(/\\/g, '/');
+                    //         image.link = link;
+                    //         redraw();
+                    //     }
+                    // }
                 }
                 else if (image.type === "video") {
                     var link = prompt("Enter the video source URL:", image.link);
@@ -286,8 +327,8 @@ function loadImage(src) {
 }
   
 async function redraw() {
-    var canvasWidth = getAvlWidth() - 50;
-    var canvasHeight = getAvlHeight() - 100;
+    var canvasWidth = getAvlWidth();	// - 50;
+    var canvasHeight = getAvlHeight();	// - 100;
     canvas.width = canvasWidth * scaleFactor;
     canvas.height = canvasHeight * scaleFactor;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -353,6 +394,9 @@ async function redraw() {
   
     // Add event listeners to handle delete functionality
     canvas.addEventListener("contextmenu", handleContextMenu);
+	
+	console.log("Offset left: " + canvas.offsetLeft);
+	console.log("Offset top:" + canvas.offsetTop);
 }  
 
 function saveData() {
