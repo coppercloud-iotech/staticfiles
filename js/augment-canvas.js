@@ -1,3 +1,8 @@
+var imgHeightPx = 0;
+var imgWidthPx = 0;
+var xCompression = 0;	// eg, 0.25
+var yCompression = 0;
+
 
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
@@ -29,6 +34,17 @@ document.getElementById("background-image-input").addEventListener("change", fun
     backgroundImage.onload = function() {
         canvas.width = getAvlWidth();	// - 50;
         canvas.height = getAvlHeight();
+		
+		imgHeightPx = backgroundImage.height;
+		imgWidthPx = backgroundImage.width;
+		console.log("Image size:" + imgWidthPx + " x " + imgHeightPx);
+		console.log("Canvas size:" + canvas.width + " x " + canvas.height);
+			
+		xCompression = (imgWidthPx-canvas.width)/canvas.width;
+		yCompression = (imgHeightPx-canvas.height)/canvas.height;
+		
+		console.log("Compression:" + xCompression + " & " + yCompression);
+	  
         ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 		//ctx.drawImage(backgroundImage, 0, 0);
     };
@@ -36,8 +52,6 @@ document.getElementById("background-image-input").addEventListener("change", fun
   
     reader.readAsDataURL(file);
 });
-// var backgroundImage = new Image();
-// backgroundImage.src = "https://cdn.jsdelivr.net/gh/coppercloud-iotech/staticfiles@latest/img/test-layout-1.png";
 
 function getAvlHeight() {return window.screen.availHeight-180;}
 function getAvlWidth()  {return window.screen.availWidth;}
@@ -52,13 +66,6 @@ function openNav() {
 function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
 }
-
-// Draw the background image
-// backgroundImage.onload = function() {
-//     canvas.width  = getAvlWidth()-50;   //window.innerWidth;
-//     canvas.height = getAvlHeight()-100; //window.innerHeight;
-//     ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
-// };
 
 function allowDrop(event) {
     event.preventDefault();
@@ -76,18 +83,35 @@ function drop(event) {
     var x = (event.clientX - canvas.offsetLeft) / scaleFactor;
     var y = (event.clientY - canvas.offsetTop) / scaleFactor;
 
-    images.push({
-        id: uniqueId,
-        type: image.alt,
-        element: image,
-        x: x - image.width / 2,  // Adjust the x-coordinate based on image width
-        y: y - image.height / 2, // Adjust the y-coordinate based on image height
-        radius: 50,
-        src: image.src,  // Store the original src attribute in the image object
-        text: "",
-        rotation: 0,
-        link: ""
-    });
+	if(image.id === "suction-pad") {
+			images.push({
+			id: uniqueId,
+			type: image.alt,
+			element: image,
+			x: x - image.width / 2,  // Adjust the x-coordinate based on image width
+			y: y - image.height / 2, // Adjust the y-coordinate based on image height
+			radius: 100,
+			src: image.src,  // Store the original src attribute in the image object
+			text: "",
+			rotation: 0,
+			link: ""
+		});
+	}
+	else {
+		images.push({
+			id: uniqueId,
+			type: image.alt,
+			element: image,
+			x: x - image.width / 2,  // Adjust the x-coordinate based on image width
+			y: y - image.height / 2, // Adjust the y-coordinate based on image height
+			radius: 50,
+			src: image.src,  // Store the original src attribute in the image object
+			text: "",
+			rotation: 0,
+			link: ""
+		});
+	}
+	
     redraw();
 }
 
@@ -118,6 +142,7 @@ function onDoubleClick(event) {
                                 var base64Image = event.target.result;
                                 // Update the image.link property with the base64 string
                                 image.link = base64Image;
+								image.radius = 100;
                                 // Redraw the canvas with the new image
                                 redraw();
                             };
@@ -127,34 +152,7 @@ function onDoubleClick(event) {
 
                     // Trigger the file dialog
                     fileInput.click();
-                    
-                    // var link = prompt("Enter the image source URL:", image.link);
-                    // if (link !== null) {
-                    //     image.radius = 60;
-                    //     if (link.startsWith("http://") || link.startsWith("https://")) {
-                    //         fetch(link)
-                    //         .then((response) => response.blob()) // Get the image as a Blob
-                    //         .then((blob) => {
-                    //             // Convert the Blob to base64
-                    //             var reader = new FileReader();
-                    //             reader.onloadend = function() {
-                    //                 var base64Image = reader.result;
-                    //                 image.link = base64Image; // Update the link value of the specific image object with the base64 string
-                    //                 redraw(); // Redraw the canvas
-                    //             };
-                    //             reader.readAsDataURL(blob);
-                    //         })
-                    //         .catch((error) => {
-                    //             console.error("Error fetching or converting the image:", error);
-                    //         });
-                    //     }
-                    //     else{
-                    //         link = 'file:///' + link.replace(/\\/g, '/');
-                    //         image.link = link;
-                    //         redraw();
-                    //     }
-                    // }
-                }
+                 }
                 else if (image.type === "video") {
                     var link = prompt("Enter the video source URL:", image.link);
                     if (link !== null) {
@@ -186,8 +184,7 @@ function onMouseDown(event) {
             var scaleY = canvas.height / rect.height;
             var x = (event.clientX - rect.left) * scaleX;
             var y = (event.clientY - rect.top) * scaleY;
-            // var x = event.clientX - canvas.offsetLeft;
-            // var y = event.clientY - canvas.offsetTop;
+
             if (x >= image.x && x < image.x + image.element.width && y >= image.y && y < image.y + image.element.height) {
                 isDragging = true;
                 dragIndex = i;
@@ -215,8 +212,6 @@ function onMouseMove(event) {
         var scaleY = canvas.height / rect.height;
         const x = (event.clientX - rect.left) * scaleX;
         const y = (event.clientY - rect.top) * scaleY;
-        // var x = event.clientX - canvas.offsetLeft;
-        // var y = event.clientY - canvas.offsetTop;
         var image = images[dragIndex];
         image.x = x - dragStart.x;
         image.y = y - dragStart.y;
@@ -257,65 +252,6 @@ function handleContextMenu(event) {
         }
     }
 }
-
-// function redraw() {
-//     var canvasWidth = getAvlWidth() - 50;
-//     var canvasHeight = getAvlHeight() - 100;
-//     canvas.width = canvasWidth * scaleFactor;
-//     canvas.height = canvasHeight * scaleFactor;
-//     ctx.clearRect(0, 0, canvas.width, canvas.height);
-//     ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
-//     for (var i = 0; i < images.length; i++) {
-//         var image = images[i];
-//         var imgScaleFactor = image.radius / Math.max(image.element.width, image.element.height);
-//         var newWidth = image.element.width * imgScaleFactor * scaleFactor;
-//         var newHeight = image.element.height * imgScaleFactor * scaleFactor;
-//         var newX = image.x * scaleFactor + image.element.width / 2 - newWidth / 2;
-//         var newY = image.y * scaleFactor + image.element.height / 2 - newHeight / 2;
-//         // ctx.drawImage(image.element, newX, newY, newWidth, newHeight);
-//         // Save the current canvas state
-//         ctx.save();
-        
-//         // Translate to the center of the image
-//         ctx.translate(newX + newWidth / 2, newY + newHeight / 2);
-        
-//         // Rotate the canvas based on the image's rotation
-//         ctx.rotate((image.rotation * Math.PI) / 180);
-
-//         // Draw the image at the rotated position
-//         if (image.type === "image" && image.link) {
-//             var img = new Image();
-//             img.src = image.link;
-//             ctx.drawImage(img, -newWidth / 2, -newHeight / 2, newWidth, newHeight);  
-//         } else {
-//             ctx.drawImage(image.element, -newWidth / 2, -newHeight / 2, newWidth, newHeight);
-//         }
-
-//         // Restore the canvas state
-//         ctx.restore();
-
-//         if (image.type === "text") {
-//             ctx.save();
-          
-//             // Apply the same rotation transformation to the text
-//             ctx.translate(newX + newWidth / 2, newY + newHeight / 2);
-//             ctx.rotate((image.rotation * Math.PI) / 180);
-          
-//             // Adjust the vertical position of the text
-//             var textOffsetY = newHeight / 2 + 5; // Adjust the value as needed
-//             ctx.font = "12px Arial";
-//             ctx.fillStyle = "black";
-//             ctx.textAlign = "center";
-//             ctx.fillText(image.text, 0, textOffsetY);
-          
-//             ctx.restore();
-//         }
-//     }
-//     canvas.addEventListener("dblclick", onDoubleClick);
-
-//     // Add event listeners to handle delete functionality
-//     canvas.addEventListener("contextmenu", handleContextMenu);
-// }
 
 function loadImage(src) {
     return new Promise((resolve, reject) => {
@@ -436,7 +372,8 @@ function saveData() {
         elements: imageDataByType,
         layoutImage:{
             src: backgroundImage.src // Set the source location
-        }
+        },
+		compression: {xcompression:1+xCompression, ycompression:1+yCompression}
     };
 
     // Create a JSON string from the data

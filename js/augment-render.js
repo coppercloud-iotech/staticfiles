@@ -1,6 +1,9 @@
+var xCompression = 1.2;	// eg, 0.25
+var yCompression = 1.1;
+
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
-var scaleFactor = 1;    //reflength_x*4.26; // pxlength
+var scaleFactor = 1;
 var data;
 
 function getAvlHeight() {return window.screen.availHeight-180;}
@@ -63,14 +66,6 @@ function openVideoPopup(videoSrc,x,y) {
   
     popupWindow.document.write('<html><body style="margin: 0;"><div style="display: flex; justify-content: center; align-items: center; width: 100vw; height: 100vh;">' + videoElement.outerHTML + '</div></body></html>');
     popupWindow.document.close();
-  
-    // Resize the popup window after the video loads
-    // videoElement.addEventListener('loadedmetadata', function() {
-    //   var width = videoElement.videoWidth;
-    //   var height = videoElement.videoHeight;
-    //   // popupWindow.resizeTo(width, height);
-    //   popupWindow.resizeTo(400, 400);
-    // });
 }
 
 function openImgPopup(imageSrc,x,y) {
@@ -106,6 +101,9 @@ function onDoubleClick(event) {
         var newX = (element.x * scaleFactor) + (element.width * scaleFactor - newWidth) / 2;
         var newY = (element.y * scaleFactor) + (element.height * scaleFactor - newHeight) / 2;
 
+		newX = newX * xCompression;
+		newY = newY * yCompression;
+						
         var transformedX = x - newX / scaleFactor;
         var transformedY = y - newY / scaleFactor;
         var isWithinImage = transformedX >= 0 && transformedX < newWidth / scaleFactor && transformedY >= 0 && transformedY < newHeight / scaleFactor;
@@ -140,19 +138,23 @@ window.addEventListener("DOMContentLoaded", () => {
 			$("#file-upload").hide();
 			
             const contents = e.target.result;
-			console.log(contents);
+			//console.log(contents);
             data = JSON.parse(contents);
+			
+			xCompression = data.compression.xcompression;
+			yCompression = data.compression.ycompression;
+			//console.log("Compression:" + xCompression + " & " + yCompression);
     
             const layoutImage = new Image();
             layoutImage.src = data.layoutImage.src;
             layoutImage.addEventListener("load", () => {
-                var canvasWidth = getAvlWidth();	// - 50;
-                var canvasHeight = getAvlHeight();	// - 100;
+                var canvasWidth = getAvlWidth();
+                var canvasHeight = getAvlHeight();
                 canvas.width = canvasWidth * scaleFactor;
                 canvas.height = canvasHeight * scaleFactor;
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.drawImage(layoutImage, 0, 0, canvas.width, canvas.height);
-				//ctx.drawImage(layoutImage, 0, 0);
+                //ctx.drawImage(layoutImage, 0, 0, canvas.width, canvas.height);
+				ctx.drawImage(layoutImage, 0, 0);
             
                 const elements = Object.values(data.elements);
                 elements.forEach((elementGroup) => {
@@ -169,6 +171,10 @@ window.addEventListener("DOMContentLoaded", () => {
                         var newHeight = element.height * imgScaleFactor * scaleFactor;
                         var newX = (element.x * scaleFactor) + (element.width * scaleFactor - newWidth) / 2;
                         var newY = (element.y * scaleFactor) + (element.height * scaleFactor - newHeight) / 2;
+						
+						newX = newX * xCompression;
+						newY = newY * yCompression;
+						
                         image.addEventListener("load", () => {
                             // Draw the purple boundary
                             // ctx.strokeStyle = "purple";
