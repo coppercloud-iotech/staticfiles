@@ -153,8 +153,8 @@ window.addEventListener("DOMContentLoaded", () => {
                 canvas.width = canvasWidth * scaleFactor;
                 canvas.height = canvasHeight * scaleFactor;
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                //ctx.drawImage(layoutImage, 0, 0, canvas.width, canvas.height);
-				ctx.drawImage(layoutImage, 0, 0);
+                ctx.drawImage(layoutImage, 0, 0, canvas.width, canvas.height);
+		//ctx.drawImage(layoutImage, 0, 0);
             
                 const elements = Object.values(data.elements);
                 elements.forEach((elementGroup) => {
