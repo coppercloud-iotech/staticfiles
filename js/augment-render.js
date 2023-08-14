@@ -19,9 +19,12 @@ function isURL(str) {
     return pattern.test(str);
 }  
 
+var popupLength = 100*4;
+var popupWidth = 100*4;
+
 function openVideoPopup(videoSrc,x,y) {
-    var width = 200;
-    var height = 200;
+    var width = popupLength;
+    var height = popupLength;
     var left = x - width / 2 + window.scrollX;
     var top = y - height + window.scrollY;
 
@@ -74,8 +77,8 @@ function openImgPopup(imageSrc,x,y) {
     img.onload = function() {
       // var width = img.width;
       // var height = img.height;
-      var width = 100;
-      var height = 100;
+      var width = popupWidth;
+      var height = popupLength;
       var left = x - width / 2 + window.scrollX;
       var top = y - height + window.scrollY;
 
@@ -154,7 +157,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 canvas.height = canvasHeight * scaleFactor;
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.drawImage(layoutImage, 0, 0, canvas.width, canvas.height);
-		//ctx.drawImage(layoutImage, 0, 0);
+				//ctx.drawImage(layoutImage, 0, 0);
             
                 const elements = Object.values(data.elements);
                 elements.forEach((elementGroup) => {
@@ -162,6 +165,9 @@ window.addEventListener("DOMContentLoaded", () => {
                         const image = new Image();
                         if (element.id.startsWith("image")) {
                           image.src = element.link;
+                        }
+						else if (element.id.startsWith("text")) {
+                          image.src = "";
                         }
                         else{
                           image.src = element.src;
@@ -192,6 +198,7 @@ window.addEventListener("DOMContentLoaded", () => {
                             
                             // Draw the image at the rotated position
                             ctx.drawImage(image, -newWidth / 2, -newHeight / 2, newWidth, newHeight);
+							//ctx.drawImage(image, -newWidth, -newHeight, newWidth*2, newHeight*2);
                             
                             // Restore the canvas state
                             ctx.restore();
@@ -205,7 +212,7 @@ window.addEventListener("DOMContentLoaded", () => {
                               
                                 // Adjust the vertical position of the text
                                 var textOffsetY = newHeight / 2 + 5; // Adjust the value as needed
-                                ctx.font = "12px Arial";
+                                ctx.font = "14px Arial";
                                 ctx.fillStyle = "black";
                                 ctx.textAlign = "center";
                                 ctx.fillText(element.text, 0, textOffsetY);
