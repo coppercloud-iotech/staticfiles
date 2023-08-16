@@ -166,17 +166,17 @@ window.addEventListener("DOMContentLoaded", () => {
                         if (element.id.startsWith("image")) {
                           image.src = element.link;
                         }
-						else if (element.id.startsWith("text")) {
-                          image.src = "";
+                        else if (element.id.startsWith("text")) {
+                          image.src = 'https://wallpapers.com/images/featured/blank-white-7sn5o1woonmklx1h.jpg';
                         }
                         else{
                           image.src = element.src;
                         }
                         var imgScaleFactor = element.radius / Math.max(element.width, element.height);
-                        var newWidth = element.width * imgScaleFactor * scaleFactor;
-                        var newHeight = element.height * imgScaleFactor * scaleFactor;
-                        var newX = (element.x * scaleFactor) + (element.width * scaleFactor - newWidth) / 2;
-                        var newY = (element.y * scaleFactor) + (element.height * scaleFactor - newHeight) / 2;
+                        var newWidth = element.width * imgScaleFactor;
+                        var newHeight = element.height * imgScaleFactor;
+                        var newX = (element.x) + (element.width - newWidth) / 2;
+                        var newY = (element.y) + (element.height - newHeight) / 2;
 						
 						newX = newX * xCompression;
 						newY = newY * yCompression;
