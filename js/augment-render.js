@@ -99,10 +99,10 @@ function onDoubleClick(event) {
       elementGroup.forEach((element) => {
         var image = element;
         var imgScaleFactor = element.radius / Math.max(element.width, element.height);
-        var newWidth = element.width * imgScaleFactor * scaleFactor;
-        var newHeight = element.height * imgScaleFactor * scaleFactor;
-        var newX = (element.x * scaleFactor) + (element.width * scaleFactor - newWidth) / 2;
-        var newY = (element.y * scaleFactor) + (element.height * scaleFactor - newHeight) / 2;
+        var newWidth = element.width * imgScaleFactor;	// * scaleFactor;
+        var newHeight = element.height * imgScaleFactor;	// * scaleFactor;
+        var newX = (element.x) + (element.width - newWidth) / 2;
+        var newY = (element.y) + (element.height - newHeight) / 2;
 
 		newX = newX * xCompression;
 		newY = newY * yCompression;
