@@ -1,13 +1,10 @@
-var xCompression = 1.2;	// eg, 0.25
-var yCompression = 1.1;
-
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
-var scaleFactor = 1;
+var scaleFactor = 1;    //reflength_x*4.26; // pxlength
 var data;
 
-function getAvlHeight() {return window.screen.availHeight-180;}
-function getAvlWidth()  {return window.screen.availWidth;}
+function getAvlHeight() {return window.screen.availHeight;}
+function getAvlWidth()  {return window.screen.availWidth;} 
 
 function isURL(str) {
     var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
@@ -19,12 +16,9 @@ function isURL(str) {
     return pattern.test(str);
 }  
 
-var popupLength = 100*4;
-var popupWidth = 100*4;
-
 function openVideoPopup(videoSrc,x,y) {
-    var width = popupLength;
-    var height = popupLength;
+    var width = 200;
+    var height = 200;
     var left = x - width / 2 + window.scrollX;
     var top = y - height + window.scrollY;
 
@@ -69,6 +63,14 @@ function openVideoPopup(videoSrc,x,y) {
   
     popupWindow.document.write('<html><body style="margin: 0;"><div style="display: flex; justify-content: center; align-items: center; width: 100vw; height: 100vh;">' + videoElement.outerHTML + '</div></body></html>');
     popupWindow.document.close();
+  
+    // Resize the popup window after the video loads
+    // videoElement.addEventListener('loadedmetadata', function() {
+    //   var width = videoElement.videoWidth;
+    //   var height = videoElement.videoHeight;
+    //   // popupWindow.resizeTo(width, height);
+    //   popupWindow.resizeTo(400, 400);
+    // });
 }
 
 function openImgPopup(imageSrc,x,y) {
@@ -77,8 +79,8 @@ function openImgPopup(imageSrc,x,y) {
     img.onload = function() {
       // var width = img.width;
       // var height = img.height;
-      var width = popupWidth;
-      var height = popupLength;
+      var width = 100;
+      var height = 100;
       var left = x - width / 2 + window.scrollX;
       var top = y - height + window.scrollY;
 
@@ -99,14 +101,11 @@ function onDoubleClick(event) {
       elementGroup.forEach((element) => {
         var image = element;
         var imgScaleFactor = element.radius / Math.max(element.width, element.height);
-        var newWidth = element.width * imgScaleFactor;	// * scaleFactor;
-        var newHeight = element.height * imgScaleFactor;	// * scaleFactor;
-        var newX = (element.x) + (element.width - newWidth) / 2;
-        var newY = (element.y) + (element.height - newHeight) / 2;
+        var newWidth = element.width * imgScaleFactor * scaleFactor;
+        var newHeight = element.height * imgScaleFactor * scaleFactor;
+        var newX = (element.x * scaleFactor) + (element.width * scaleFactor - newWidth) / 2;
+        var newY = (element.y * scaleFactor) + (element.height * scaleFactor - newHeight) / 2;
 
-		newX = newX * xCompression;
-		newY = newY * yCompression;
-						
         var transformedX = x - newX / scaleFactor;
         var transformedY = y - newY / scaleFactor;
         var isWithinImage = transformedX >= 0 && transformedX < newWidth / scaleFactor && transformedY >= 0 && transformedY < newHeight / scaleFactor;
@@ -137,22 +136,15 @@ window.addEventListener("DOMContentLoaded", () => {
       const reader = new FileReader();
   
         reader.onload = function (e) {
-			// hide load button
-			$("#file-upload").hide();
-			
             const contents = e.target.result;
-			//console.log(contents);
+			console.log(contents);
             data = JSON.parse(contents);
-			
-			xCompression = data.compression.xcompression;
-			yCompression = data.compression.ycompression;
-			//console.log("Compression:" + xCompression + " & " + yCompression);
     
             const layoutImage = new Image();
             layoutImage.src = data.layoutImage.src;
             layoutImage.addEventListener("load", () => {
-                var canvasWidth = getAvlWidth();
-                var canvasHeight = getAvlHeight();
+                var canvasWidth = getAvlWidth() - 50;
+                var canvasHeight = getAvlHeight() - 100;
                 canvas.width = canvasWidth * scaleFactor;
                 canvas.height = canvasHeight * scaleFactor;
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -166,21 +158,14 @@ window.addEventListener("DOMContentLoaded", () => {
                         if (element.id.startsWith("image")) {
                           image.src = element.link;
                         }
-                        else if (element.id.startsWith("text")) {
-                          image.src = 'https://wallpapers.com/images/featured/blank-white-7sn5o1woonmklx1h.jpg';
-                        }
                         else{
                           image.src = element.src;
                         }
                         var imgScaleFactor = element.radius / Math.max(element.width, element.height);
-                        var newWidth = element.width * imgScaleFactor;
-                        var newHeight = element.height * imgScaleFactor;
-                        var newX = (element.x) + (element.width - newWidth) / 2;
-                        var newY = (element.y) + (element.height - newHeight) / 2;
-						
-						newX = newX * xCompression;
-						newY = newY * yCompression;
-						
+                        var newWidth = element.width * imgScaleFactor * scaleFactor;
+                        var newHeight = element.height * imgScaleFactor * scaleFactor;
+                        var newX = (element.x * scaleFactor) + (element.width * scaleFactor - newWidth) / 2;
+                        var newY = (element.y * scaleFactor) + (element.height * scaleFactor - newHeight) / 2;
                         image.addEventListener("load", () => {
                             // Draw the purple boundary
                             // ctx.strokeStyle = "purple";
@@ -198,7 +183,6 @@ window.addEventListener("DOMContentLoaded", () => {
                             
                             // Draw the image at the rotated position
                             ctx.drawImage(image, -newWidth / 2, -newHeight / 2, newWidth, newHeight);
-							//ctx.drawImage(image, -newWidth, -newHeight, newWidth*2, newHeight*2);
                             
                             // Restore the canvas state
                             ctx.restore();
@@ -212,7 +196,7 @@ window.addEventListener("DOMContentLoaded", () => {
                               
                                 // Adjust the vertical position of the text
                                 var textOffsetY = newHeight / 2 + 5; // Adjust the value as needed
-                                ctx.font = "14px Arial";
+                                ctx.font = "12px Arial";
                                 ctx.fillStyle = "black";
                                 ctx.textAlign = "center";
                                 ctx.fillText(element.text, 0, textOffsetY);
@@ -226,7 +210,5 @@ window.addEventListener("DOMContentLoaded", () => {
             });          
         }
         reader.readAsText(file);
-		console.log("Offset left: " + canvas.offsetLeft);
-		console.log("Offset top:" + canvas.offsetTop);
     }
 });
