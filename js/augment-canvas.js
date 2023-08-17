@@ -126,7 +126,7 @@ function onDoubleClick(event) {
                     var diameter = prompt("Enter the diameter (in mm) to resize the image:", image.radius * 2);
                     if (diameter !== null) {
                         var radius = parseFloat(diameter) / 2;
-                        image.radius = radius*2;	// * 2 is only to make 90MM vacpad look bigger on editor. needs to be changed after demo
+                        image.radius = radius;	// * 2 is only to make 90MM vacpad look bigger on editor. needs to be changed after demo
                         redraw();
                     }
                 } else if (image.type === "image") {
