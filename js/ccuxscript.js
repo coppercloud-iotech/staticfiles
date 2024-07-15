@@ -30,12 +30,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  const switchInput = document.querySelector('#switch input');
+  switchInput.addEventListener('change', toggleMode);
+
   const mode = localStorage.getItem('mode');
   if (mode === 'night') {
     document.querySelector('body').classList.add('night');
-    document.querySelector('#switch input').checked = true;
+    switchInput.checked = true;
   } else {
     document.querySelector('body').classList.add('day');
-    document.querySelector('#switch input').checked = false;
+    switchInput.checked = false;
   }
 });
