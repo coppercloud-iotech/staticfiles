@@ -15,26 +15,27 @@
     }
 
 
-    /* black and whote ux */
-    function toggleMode() {
-        const body = document.querySelector('body');
-        const isNight = body.classList.contains('night');
-        if (isNight) {
-            body.classList.remove('night');
-            body.classList.add('day');
-            localStorage.setItem('mode', 'day');
-        } else {
-            body.classList.remove('day');
-            body.classList.add('night');
-            localStorage.setItem('mode', 'night');
-        }
-    }
-
-    const mode = localStorage.getItem('mode');
-    if (mode === 'night') {
-        document.querySelector('body').classList.add('night');
-        document.querySelector('#switch input').checked = true;
+document.addEventListener('DOMContentLoaded', () => {
+  function toggleMode() {
+    const body = document.querySelector('body');
+    const isNight = body.classList.contains('night');
+    if (isNight) {
+      body.classList.remove('night');
+      body.classList.add('day');
+      localStorage.setItem('mode', 'day');
     } else {
-        document.querySelector('body').classList.add('day');
-        document.querySelector('#switch input').checked = false;
+      body.classList.remove('day');
+      body.classList.add('night');
+      localStorage.setItem('mode', 'night');
     }
+  }
+
+  const mode = localStorage.getItem('mode');
+  if (mode === 'night') {
+    document.querySelector('body').classList.add('night');
+    document.querySelector('#switch input').checked = true;
+  } else {
+    document.querySelector('body').classList.add('day');
+    document.querySelector('#switch input').checked = false;
+  }
+});
