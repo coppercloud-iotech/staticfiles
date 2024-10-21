@@ -1,0 +1,334 @@
+/* body css */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* Ensure full height */
+}
+
+/* header css */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f1f1f1;
+    padding: 20px 10px;
+}
+
+.comp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+
+/* maincontent css */
+.content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+/* sidebar css */
+.sidebar {
+    transition: transform 0.3s ease;
+    transform: translateX(-100%);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    height: 100vh;
+}
+
+.sidebar.active {
+    transform: translateX(0);
+}
+
+
+/* footer css */
+footer {
+    background-color: #f8f9fa;
+    /* Light gray background */
+    padding: 10px 0;
+}
+
+
+/* ---------------------------------------------------------------------- */
+/* buttons css for different elements */
+body button:hover {
+    background-color: rgb(171, 243, 242);
+}
+
+#menuicon {
+    margin-left: 10px;
+    font-size: 30px;
+    cursor: pointer;
+    color: black;
+    border-radius: 25px;
+    width: 45px;
+    height: 50px;
+}
+
+.sidebar-button,
+.slider-button {
+    /* Optional: add margin for spacing */
+    margin: 0 10px;
+}
+
+.logo img {
+    max-height: 50px;
+    /* Adjust height as needed */
+}
+
+
+/* <!--  use this style to fit image exactly inside the button  --> */
+.image-button {
+    position: relative;
+    width: 75px;
+    /* Adjust the width as needed */
+    height: 75px;
+    /* Adjust the height as needed */
+    overflow: hidden;
+    /* This will prevent the image from overlapping */
+    border-radius: 20px;
+}
+
+.image-button img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    /* Adjust the width as needed */
+    height: auto;
+    cursor: pointer;
+}
+
+/* ----------------------------------------------------------------------------- */
+
+/* modal styles and new input fileds styles */
+
+
+.modal-header {
+    background: #0d6efd;
+    color: white;
+}
+
+.modal-body {
+    background: #333;
+    color: white;
+}
+
+.modal-footer {
+    background: #333;
+
+}
+
+.form-control {
+    border: none;
+    border-bottom: 2px solid #fff;
+    margin-right: 10px;
+    background-color: transparent;
+    color: #fff;
+    border-radius: 0px;
+}
+
+.form-control[readonly] {
+    color: black;
+    /* Set text color to black */
+    background-color: #f0f0f0;
+    border-radius: 0px;
+    /* Optional: Change background color for better visibility */
+}
+
+.form-control:focus {
+    border-radius: 0.25rem;
+    /* More pronounced rounded corners */
+}
+
+
+/* --------------------------------------------------------------------------- */
+
+/* font styles */
+
+.bigger-font {
+    font-weight: 900;
+    font-size: x-large;
+}
+
+.medium-font {
+    font-weight: 700;
+    font-size: medium;
+
+}
+
+.center {
+    text-align: center;
+}
+
+.alert {
+    margin-top: 20px;
+    font-weight: 400;
+    font-size: 1.4em;
+}
+
+
+/* -------------------------------------------------------------------------- */
+
+
+
+/* slider button css */
+
+
+/* day and night css with slider button */
+body {
+    transition: background-color 0.5s ease;
+}
+
+.day {
+    background-color: white;
+    color: black;
+}
+
+.night {
+    background-color: black;
+    color: white;
+
+}
+
+.switch {
+    position: absolute;
+    display: inline-block;
+    top: 35px;
+    right: 25px;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked+.slider {
+    background-color: #2196F3;
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* ------------------------------------------------------------------------------------- */
+
+/* animations */
+
+
+
+.hoverbig:hover {
+    animation: big 1s;
+}
+
+
+@keyframes big {
+    0% {
+        transform: translateX(0);
+    }
+
+    60% {
+        transform: scale(0.5);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+
+/* ----------------------------------------------------------------------------------- */
+
+/* <!-- style to fit image exactly inside the button  --> */
+
+.image-button {
+    position: relative;
+    width: 75px;
+    /* Adjust the width as needed */
+    height: 75px;
+    /* Adjust the height as needed */
+    overflow: hidden;
+    /* This will prevent the image from overlapping */
+    border-radius: 20px;
+}
+
+.image-button img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    /* Adjust the width as needed */
+    height: auto;
+    cursor: pointer;
+}
+
+
+
+/* ---------------------------------------------- */
+
+/* Add media queries for responsiveness  when pwa is done*/
+@media screen and (max-width: 500px) {
+    .header {
+        flex-direction: column;
+        /* Stack elements vertically on small screens */
+        align-items: center;
+        /* Center items */
+    }
+
+    .sidebar-button,
+    .comp,
+    .slider-button {
+        margin: 10px 0;
+        /* Add vertical spacing */
+    }
+}
