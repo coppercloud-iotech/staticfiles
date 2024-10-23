@@ -17,12 +17,12 @@ document.addEventListener('DOMContentLoaded', () => {
     switchInput.addEventListener('change', toggleMode);
 
     const mode = localStorage.getItem('mode');
-    if (mode === 'night') {
-        document.querySelector('body').classList.add('night');
-        switchInput.checked = true;
-    } else {
+    if (mode === 'day') {
         document.querySelector('body').classList.add('day');
         switchInput.checked = false;
+    } else {
+        document.querySelector('body').classList.add('night');
+        switchInput.checked = true;
     }
 });
 
