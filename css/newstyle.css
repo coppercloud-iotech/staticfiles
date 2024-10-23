@@ -63,13 +63,10 @@ body button:hover {
 }
 
 #menuicon {
-    margin-left: 10px;
     font-size: 30px;
     cursor: pointer;
-    color: black;
-    border-radius: 25px;
-    width: 45px;
-    height: 50px;
+    color: white;
+    background:#333;
 }
 
 .sidebar-button,
