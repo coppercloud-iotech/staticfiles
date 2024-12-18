@@ -185,12 +185,12 @@ body {
     transition: background-color 0.5s ease;
 }
 
-.day {
+.night {
     background-color: black;
     color: white;
 }
 
-.night {
+.day {
     background-color: white;
     color: black;
 
