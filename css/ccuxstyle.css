@@ -142,16 +142,14 @@
     }
 
     .day {
-        background-color: white;
-        color: black;
-    
-
-
+        
+   background-color: black;
+        color: white;
     }
 
     .night {
-        background-color: black;
-        color: white;
+       background-color: white;
+        color: black;
       
     }
     /* sliderbutton */
