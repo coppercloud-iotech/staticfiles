@@ -21,10 +21,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const mode = localStorage.getItem('mode') || 'night';;
     if (mode === 'day') {
         document.querySelector('body').classList.add('day');
-        switchInput.checked = false;
+        if (switchInput) {
+            switchInput.checked = false; // Switch is off for day mode
+        }
     } else {
         document.querySelector('body').classList.add('night');
-        switchInput.checked = true;
+        if (switchInput) {
+            switchInput.checked = true; // Switch is off for day mode
+        }
     }
 });
 
