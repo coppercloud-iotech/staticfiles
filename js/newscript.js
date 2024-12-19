@@ -14,9 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const switchInput = document.querySelector('#switch input');
-    switchInput.addEventListener('change', toggleMode);
+    if (switchInput) {
+        switchInput.addEventListener('change', toggleMode);
+    }
 
-    const mode = localStorage.getItem('mode');
+    const mode = localStorage.getItem('mode') || 'night';;
     if (mode === 'day') {
         document.querySelector('body').classList.add('day');
         switchInput.checked = false;
