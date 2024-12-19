@@ -31,14 +31,19 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const switchInput = document.querySelector('#switch input');
-  switchInput.addEventListener('change', toggleMode);
-
-  const mode = localStorage.getItem('mode');
+    if (switchInput) {
+        switchInput.addEventListener('change', toggleMode);
+    }
+  const mode = localStorage.getItem('mode') || 'night';
   if (mode === 'night') {
     document.querySelector('body').classList.add('night');
+    if (switchInput) {
     switchInput.checked = true;
+    }
   } else {
     document.querySelector('body').classList.add('day');
+    if (switchInput) {
     switchInput.checked = false;
+    }
   }
 });
