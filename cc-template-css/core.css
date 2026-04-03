@@ -4,7 +4,7 @@
    HTML only needs to link this one file.
    ========================================================================== */
 
-@import url("https://raw.githubusercontent.com/coppercloud-iotech/staticfiles/refs/heads/main/cc-template-css/brand.css");
+@import url("https://cdn.jsdelivr.net/gh/coppercloud-iotech/staticfiles@main/cc-template-css/brand.css");
 
 /* --------------------------------------------------------------------------
    1. RESET
