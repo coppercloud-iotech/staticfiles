@@ -1,10 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
-
+/* brand.css — only edit this file to change the brand */
 :root {
-  --color-primary:    #ff631c;
-  --color-bg:         #0f0f0f;
-  --color-text:       #111827;
-  --color-muted:      #6b7280;
-  --font-body:        'Inter', sans-serif;
-  --radius:           0.5rem;
+  --color-primary: #ff631c;
+  --color-bg:      #0f0f0f;
+  --color-text:    #f1f1f1;
+  --color-muted:   #888888;
+  --font-body:     'Inter', sans-serif;
+  --radius:        0.5rem;
 }
