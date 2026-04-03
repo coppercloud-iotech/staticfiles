@@ -1,84 +1,84 @@
-@import url("https://cdn.jsdelivr.net/gh/coppercloud-iotech/staticfiles@main/cc-template-css/brand.css");
+/* core.css — structure only, never touch for branding */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
   font-family: var(--font-body, sans-serif);
-  background:  var(--color-bg);
-  color:       var(--color-text);
+  background:  var(--color-bg, #fff);
+  color:       var(--color-text, #111);
   min-height:  100vh;
   display:     flex;
   flex-direction: column;
-}
-
-/* Layout */
-.container {
-  width: 100%;
-  max-width: 480px;
-  margin-inline: auto;
-  padding-inline: 1.5rem;
 }
 
 main {
   flex: 1;
   display: flex;
   align-items: center;
-  padding-block: 2rem;
+  justify-content: center;
+  padding: 2rem 1.5rem;
 }
 
-/* Header */
 .site-header {
   padding: 1rem 1.5rem;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 15%, transparent);
 }
 .logo {
   font-weight: 600;
+  font-size: 1rem;
   color: var(--color-primary);
 }
 
-/* Card */
 .card {
-  background: var(--color-bg);
-  border: 1px solid #e5e7eb;
+  width: 100%;
+  max-width: 460px;
+  border: 1px solid color-mix(in srgb, var(--color-text) 15%, transparent);
   border-radius: var(--radius);
   padding: 2rem;
-  width: 100%;
-  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
 }
-.card h2 { font-size: 1.25rem; margin-bottom: 0.25rem; }
-.card p  { font-size: 0.875rem; color: var(--color-muted); margin-bottom: 1.5rem; }
+.card h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.25rem;
+  color: var(--color-text);
+}
+.card .sub {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  margin-bottom: 1.5rem;
+}
 
-/* Form */
 .form-group { margin-bottom: 1rem; }
-
 label {
   display: block;
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   font-weight: 500;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.35rem;
+  color: var(--color-text);
 }
-
 input, textarea {
   width: 100%;
   font-family: var(--font-body, sans-serif);
   font-size: 0.875rem;
   padding: 0.65rem 0.875rem;
-  border: 1px solid #e5e7eb;
+  background: color-mix(in srgb, var(--color-bg) 80%, var(--color-text) 5%);
+  color: var(--color-text);
+  border: 1px solid color-mix(in srgb, var(--color-text) 20%, transparent);
   border-radius: var(--radius);
   outline: none;
   transition: border-color 150ms, box-shadow 150ms;
 }
 input:focus, textarea:focus {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 20%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 25%, transparent);
 }
 
-/* Button */
 .btn {
   display: block;
   width: 100%;
   padding: 0.75rem;
+  font-family: var(--font-body, sans-serif);
   font-size: 0.875rem;
   font-weight: 600;
   background: var(--color-primary);
@@ -88,12 +88,12 @@ input:focus, textarea:focus {
   cursor: pointer;
   transition: opacity 150ms;
 }
-.btn:hover { opacity: 0.88; }
+.btn:hover { opacity: 0.85; }
 
-/* Footer */
 .site-footer {
   padding: 1rem;
   text-align: center;
   font-size: 0.8rem;
   color: var(--color-muted);
+  border-top: 1px solid color-mix(in srgb, var(--color-text) 15%, transparent);
 }
